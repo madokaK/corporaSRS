@@ -67,7 +67,7 @@ extensionsToIgnore = ('.frequency.txt', '.en', '.sql', '.pkl','.charStats.txt', 
 
 
 def chdir(dir):
-	print('dir: ', dir)
+	#print('dir: ', dir)
 	os.chdir(dir)
 	
 def tableWrite(table, filename):
