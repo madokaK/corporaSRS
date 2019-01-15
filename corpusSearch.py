@@ -236,7 +236,7 @@ def indexSubs(filePath):
 
 		
 
-	
+	chdir('temp.tmp')	
 	for word in topwords:
 		f = open(word, 'ab+')
 		if word in wordIndex:
@@ -251,7 +251,7 @@ def indexSubs(filePath):
 		c.execute(u'''INSERT INTO WORDINDEX(WORD, LOCATIONS) 
 				VALUES(?, ?);''',[word, sqlite3.Binary(loc)])
 		#conn.execute(sql,[word, sqlite3.Binary(loc)])
-		
+	chdir('..')
 	for word in list(wordIndex):
 		apendItem(word, wordIndex[word])
 		del wordIndex[word]
