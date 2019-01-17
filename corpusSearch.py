@@ -185,7 +185,7 @@ def indexSubs(filePath):
 					f.close()
 				chdir('..')	
 					
-			if len(topwords) > 0 and counter % 2500000//maxTopWords == 0:
+			if len(topwords) > 0 and counter % (2500000//maxTopWords) == 0:
 				chdir('temp.tmp')
 				a = topwords.pop(0)
 				topwords.append(a)
