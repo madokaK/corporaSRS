@@ -1,7 +1,7 @@
 #encoding:utf8
 
 showTranslation = True
-maxFreq = 100 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". Make this 0 to disable this feature
+maxFreq = 100 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". Disabling this feature is currently unsupported.
 
 
 
