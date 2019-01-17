@@ -1,9 +1,7 @@
 #encoding:utf8
 
 showTranslation = True
-maxFreq = 100 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". Make this 0 to disable this feature
-
-
+maxFreq = 100 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". 
 
 #A lematization file in the format used by #http://www.lexiconista.com/datasets/lemmatization/
 #will be used if saved to the program directory, and the file name starts with "lemmatization"
