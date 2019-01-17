@@ -50,7 +50,8 @@ letters = set(u'·')#Catalan
 maxCorpusSize = 300.0e6#big enough, but should not cause memory errors
 #Number of bytes of the corpora to process.
 
-maxTopWords = 2000#the most frequent words that will be written to files while indexing to save memory. 
+maxTopWords = 1000#The most frequent words will be written to files while indexing to save memory. Slows things down. 
+
 #Indexer Starts here:
 import unicodedata
 
@@ -463,9 +464,12 @@ class corpusSearch():
 				self.transDict = cPickle.load(open(transFile + '.pkl', 'rb'))
 			else:
 				self.transDict  = indexTranslation(self.corpusText, self.trans)
+				print('saving translation dictionary to the disk...')
 				cPickle.dump(self.transDict, open(transFile + '.pkl', 'wb', cPickle.HIGHEST_PROTOCOL))
+				print('done.')
 		else:
 			self.trans = None
+		print('Corpus Search Finished Initializing.')
 		#the readLoc funcion is resposible for the altenate text trick#
 
 		
@@ -664,17 +668,7 @@ def readTrueLoc(corpus, loc):
 from Tkinter import *
 
 
-
-
-TextLines = 18
-maxLength = 100
-fontSize = 20
-
-
-
-
-		
-		
+	
 def preLoad(expr):
 	global knownWords
 	if type(expr) != type(u'uni'):
@@ -732,7 +726,7 @@ a = [a for a in os.listdir(u'.') if a.startswith(u'lemmatization')]
 #http://www.lexiconista.com/datasets/lemmatization/
 if a:
 	print a
-	if len(a) > 0:
+	if len(a) > 1:
 		print('\r\nOnly the first lemmatization file will be used.')
 
 	with open(a[0], 'rb') as f:
