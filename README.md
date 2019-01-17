@@ -1,7 +1,7 @@
 # corporaSRS
 An SRS system that gets random example senteces from a corpus
 
-In early development, the corpus search module is working, but it has many issues and will undergo major re-writing.
+In early development, the corpus search module is working, but it has some issues and will undergo major re-writing.
 
 
 Usage:
@@ -20,7 +20,7 @@ Usage:
 
 7 Run corpusSearch.py
 
-The translation corpus needs always to be English. This is so because the vast majority of the translations would be to or from English, thus other pairs would have twice as much errors. (The program will just check if the file ends with '.en', so you can work this around by renaming...) If you want to use an English corpus you will need to change the extension to something other than '.en'.
+The translation corpus needs always to be English. This is so because the vast majority of the translations would be to or from English, thus other pairs would have twice as many errors. (The program will just check if the file ends with '.en', so you can work this around by renaming...) If you want to use an English corpus you will need to change the extension to something other than '.en'.
 
 It should work for all languages that words are separated by space (i.e. no Chinese or Japanese). 
 
