@@ -250,9 +250,9 @@ def indexSubs(filePath):
 			c.execute(u'''INSERT INTO WORDINDEX(WORD, LOCATIONS) 
 					VALUES(?, ?);''',[word, sqlite3.Binary(loc)])
 			#conn.execute(sql,[word, sqlite3.Binary(loc)])
-		[os.path.remove(a) for a in os.listdir('.')]
+		[os.remove(a) for a in os.listdir('.')]
 		chdir('..')	
-		os.path.remove('temp.tmp')
+		os.remove('temp.tmp')
 		
 	for word in list(wordIndex):
 		apendItem(word, wordIndex[word])
