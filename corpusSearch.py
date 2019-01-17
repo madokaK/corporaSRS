@@ -47,10 +47,10 @@ letters = set(u'·')#Catalan
 
 
 #INDEXING OPTIONS:
-maxCorpusSize = 300.0e6#big enough, but should not cause memory errors
+maxCorpusSize = 100.0e6#big enough, but should not cause memory errors
 #Number of bytes of the corpora to process.
 
-maxTopWords = 100#the most frequent words will be written to files so that I can just append, without needing to read the contents.
+maxTopWords = 1000#the most frequent words will be written to files so that I can just append, without needing to read the contents.
 
 #Indexer Starts here:
 import unicodedata
