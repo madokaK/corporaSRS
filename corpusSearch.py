@@ -1,7 +1,7 @@
 #encoding:utf8
 
 showTranslation = True
-maxFreq = 540 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". Make this 0 to disable this feature
+maxFreq = 100 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". Make this 0 to disable this feature
 
 
 
@@ -50,7 +50,7 @@ letters = set(u'·')#Catalan
 maxCorpusSize = 300.0e6#big enough, but should not cause memory errors
 #Number of bytes of the corpora to process.
 
-maxTopWords = 1250#the most frequent words will be written to files so that I can just append, without needing to read the contents.
+maxTopWords = 100#the most frequent words will be written to files so that I can just append, without needing to read the contents.
 
 #Indexer Starts here:
 import unicodedata
@@ -187,7 +187,7 @@ def indexSubs(filePath):
 					f.close()
 				chdir('..')	
 					
-			if len(topwords) > 0 and counter % (2500000//maxTopWords) == 0:
+			if len(topwords) > 0 and counter % 2500000//maxTopWords == 0:
 				chdir('temp.tmp')
 				a = topwords.pop(0)
 				topwords.append(a)
@@ -236,22 +236,26 @@ def indexSubs(filePath):
 
 		
 
-	chdir('temp.tmp')	
-	for word in topwords:
-		f = open(word, 'ab+')
-		if word in wordIndex:
-			f.write(packIdx(wordIndex[word]))
-			del wordIndex[word] 
-			
+	if os.path.exists('temp.tmp'):
+		chdir('temp.tmp')
+		for word in topwords:
+			f = open(word, 'ab+')
+			if word in wordIndex:
+				f.write(packIdx(wordIndex[word]))
+				del wordIndex[word] 
+				
 
-		f.seek(0)
-		loc = f.read()
-		f.close()
-		#os.remove(word)#left in place to troubleshoot
-		c.execute(u'''INSERT INTO WORDINDEX(WORD, LOCATIONS) 
-				VALUES(?, ?);''',[word, sqlite3.Binary(loc)])
-		#conn.execute(sql,[word, sqlite3.Binary(loc)])
-	chdir('..')
+			f.seek(0)
+			loc = f.read()
+			f.close()
+			os.remove(word)
+			c.execute(u'''INSERT INTO WORDINDEX(WORD, LOCATIONS) 
+					VALUES(?, ?);''',[word, sqlite3.Binary(loc)])
+			#conn.execute(sql,[word, sqlite3.Binary(loc)])
+		[os.path.remove(a) for a in os.listdir('.')]
+		chdir('..')	
+		os.path.remove('temp.tmp')
+		
 	for word in list(wordIndex):
 		apendItem(word, wordIndex[word])
 		del wordIndex[word]
@@ -419,7 +423,7 @@ def indexTranslation(file1, file2):
 		for lo in file1:
 			lc = file2.readline()
 			
-			if p1 >  maxCorpusSize +  6869382:
+			if p1 >  maxCorpusSize +  15000000:
 				break
 			um = len(lo)
 			dois = len(lc)
@@ -430,9 +434,10 @@ def indexTranslation(file1, file2):
 			d[p1] = p2
 	except:
 		raise
-		
-	return d
+	
 	print('done.')
+	return d
+	
 	
 	
 
@@ -734,9 +739,12 @@ if a:
 	with open(a[0], 'rb') as f:
 		data = f.read().decode('utf8', 'ignore').replace(u'\r', u'').split(u'\n')
 		data = [a.split(u'\t') for a in data]
+		
 
 	for a in data:
 		if len(a) >1:
+			if len(a[0]) <2:
+				continue
 			a = [ u' '.join(tokenise(b)) for b in a]
 			lemmaDict[a[1]] = a[0]
 			if a[0] not in inflectDict:
@@ -758,7 +766,7 @@ try:
 	with open ('exampleSents.pkl', 'rb') as f:
 		exampleSents = cPickle.load(f)
 except:
-	print('example sentences cache nonextant of corrupted, reseting....')
+	#print('example sentences cache nonextant of corrupted, reseting....')
 	exampleSents = {}
 
 
@@ -778,8 +786,19 @@ def search():
 	
 
 
-knownWords = set()	
+
+if os.path.exists('knownWords.txt'):
+	knownWords = set([a[0].strip() for a in tableLoad('knownWords.txt')])
+	for a in list(knownWords):
+		for b in inflect(a):
+			knownWords.add(b)
+	
+else: 
+	knownWords = set()	
+	
+
 processCorpora()
+
 
 corpora = [corpusSearch(corpus) for corpus in corporaFiles]
 
