@@ -1,7 +1,9 @@
 #encoding:utf8
 
 showTranslation = True
-maxFreq = 100 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". 
+maxFreq = 100 #will look for sentences containing only these words, plus the words in the file "knownWords.txt". Make this 0 to disable this feature
+
+
 
 #A lematization file in the format used by #http://www.lexiconista.com/datasets/lemmatization/
 #will be used if saved to the program directory, and the file name starts with "lemmatization"
@@ -45,10 +47,10 @@ letters = set(u'·')#Catalan
 
 
 #INDEXING OPTIONS:
-maxCorpusSize = 100.0e6#big enough, but should not cause memory errors
+maxCorpusSize = 300.0e6#big enough, but should not cause memory errors
 #Number of bytes of the corpora to process.
 
-maxTopWords = 1000#the most frequent words will be written to files so that I can just append, without needing to read the contents.
+maxTopWords = 100#the most frequent words will be written to files so that I can just append, without needing to read the contents.
 
 #Indexer Starts here:
 import unicodedata
@@ -252,7 +254,7 @@ def indexSubs(filePath):
 			#conn.execute(sql,[word, sqlite3.Binary(loc)])
 		[os.remove(a) for a in os.listdir('.')]
 		chdir('..')	
-		os.remove('temp.tmp')
+		os.rmdir('temp.tmp')
 		
 	for word in list(wordIndex):
 		apendItem(word, wordIndex[word])
@@ -819,4 +821,3 @@ textArea = Text()
 textArea.grid(row = 1, column = 0, columnspan = 100)
 
 main.mainloop()
-	
