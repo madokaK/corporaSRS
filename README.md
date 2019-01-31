@@ -2,7 +2,8 @@
 An SRS system that gets random example senteces from a corpus
 
 In early development, the corpus search module is working, but it has some issues and will undergo major re-writing.
-I will do more coding in March.
+
+I should fix those and upload the SRS module in March.
 
 
 Usage:
